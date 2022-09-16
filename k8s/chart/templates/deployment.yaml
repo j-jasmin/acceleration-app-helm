@@ -1,0 +1,49 @@
+{{- $containerPort := .Values.port -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels:
+    {{- include "chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      {{- include "chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "chart.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "chart.serviceAccountName" . }}
+      containers:
+        - name: {{ include "chart.fullname" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ $containerPort }}
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 1
+            httpGet:
+              path: /health
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            failureThreshold: 1
+            periodSeconds: 1
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: WEB_PORT
+              value: {{ $containerPort | quote }}
+            {{- if .Values.env }}
+            {{- toYaml .Values.env | nindent 12 }}
+            {{ end }}

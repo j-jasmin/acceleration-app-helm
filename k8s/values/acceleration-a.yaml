@@ -1,0 +1,6 @@
+---
+port: 3002
+
+image:
+  repository: jasminj000/acceleration-a
+  tag: "1.0"

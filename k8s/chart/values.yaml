@@ -1,0 +1,23 @@
+---
+replicas: 2
+
+image:
+  pullPolicy: Always
+
+serviceAccount:
+  create: true
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

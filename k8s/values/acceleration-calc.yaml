@@ -1,0 +1,22 @@
+---
+port: 3000
+
+image:
+  repository: jasminj000/acceleration-calc
+  tag: "1.0"
+
+env:
+  - name: DV_URL
+    value: "http://acceleration-dv-service.default.svc.cluster.local/dv"
+  - name: A_URL
+    value: "http://acceleration-a-service.default.svc.cluster.local/a"
+
+ingress:
+  enabled: true
+  annotations:
+    k8s.io/ingress-nginx: ingress-nginx
+  hosts:
+    - host: localhost
+      paths:
+        - path: /calc
+          pathType: Prefix
