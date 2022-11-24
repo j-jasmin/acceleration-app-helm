@@ -16,7 +16,7 @@ spec:
   # Source of the application manifests
   source:
     repoURL: https://github.com/j-jasmin/acceleration-app-helm # Can point to either a Helm chart repo or a git repo.
-    targetRevision: HEAD  # For Helm, this refers to the chart version.
+    targetRevision: argo
     path: k8s/argo/ 
     
     helm:
