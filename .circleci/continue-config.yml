@@ -1,0 +1,21 @@
+version: 2.1
+
+jobs:
+  build-code:
+   steps:
+     when:
+      condition:
+        and:
+          - << pipeline.parameters.build-code >>
+      steps:
+        - run: echo "hello world"
+
+
+  validate-helm:
+    steps:
+      condition:
+        and:
+          - << pipeline.parameters.helm-validate >>
+      steps:
+        - run: echo "hello helm"
+
