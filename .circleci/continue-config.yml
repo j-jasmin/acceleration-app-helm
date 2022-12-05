@@ -7,8 +7,13 @@ jobs:
       condition:
         and:
           - << pipeline.parameters.build-code >>
+      docker:
+      - image: cimg/base:stable
       steps:
-        - run: echo "hello world"
+        - checkout
+        - run:
+            name: "Say hello"
+            command: "echo Hello, World!"
 
 
   validate-helm:
@@ -16,6 +21,10 @@ jobs:
       condition:
         and:
           - << pipeline.parameters.helm-validate >>
+      docker:
+      - image: cimg/base:stable
       steps:
-        - run: echo "hello helm"
-
+        - checkout
+        - run:
+            name: "Say hello helm"
+            command: "echo Hello, helm!"
