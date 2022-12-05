@@ -1,41 +1,44 @@
 version: 2.1
 
-
 parameters:
+  build-code:
+    type: boolean
+    default: false
   helm-validate:
     type: boolean
     default: false
 
-# jobs:
-#   build-code:
-#    steps:
-#      when:
-#       condition:
-#           - << pipeline.parameters.build-code >>
-#       steps:
-#         - checkout
-#         - run:
-#             name: "Say hello"
-#             command: "echo Hello, World!"
+executors:
+  base:
+    docker:
+      - image: cimg/base:stable
 
-#   validate-helm:
-#     steps:
-#       condition:
-#         and:
-#           - << pipeline.parameters.helm-validate >>
-#       docker:
-#       - image: cimg/base:stable
-#       steps:
-#         - checkout
-#         - run:
-#             name: "Say hello helm"
-#             command: "echo Hello, helm!"
-
-my-job:
-  steps:
-    when:
-      condition:
-        or:
-          - << pipeline.parameters.helm-validate >>
+jobs:
+  build-code:
+      executor: base
       steps:
-        - run: ./deploy
+        - run: 
+            command: |
+              echo "build-code"
+              
+  helm-validate: 
+      executor: base
+      steps:
+        - run: 
+            command: |
+              echo "helm-validate" 
+              
+workflows:
+  build-1:
+    when: 
+      or: 
+        - << pipeline.parameters.build-code >>
+    jobs:
+      - build-code
+      
+  build-2:
+    when: 
+      or: 
+        - << pipeline.parameters.helm-validate >>
+    jobs:
+      - helm-validate

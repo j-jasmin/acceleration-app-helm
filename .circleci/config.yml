@@ -1,4 +1,4 @@
-version: '2.1'
+version: 2.1
 
 setup: true
 
@@ -14,4 +14,3 @@ workflows:
           mapping: |
             acceleration-a/.* build-code true
             k8s/.* helm-validate true
-
