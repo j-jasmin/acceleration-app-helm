@@ -1,5 +1,11 @@
 version: 2.1
 
+
+parameters:
+  helm-validate:
+    type: boolean
+    default: false
+
 # jobs:
 #   build-code:
 #    steps:
