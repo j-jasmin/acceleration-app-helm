@@ -7,21 +7,23 @@ executors:
       - image: alpine/k8s:1.22.15
 
 jobs:
-  helm-lint:
+  lint:
     executor: base
     steps:
       - checkout
       - run:
           command: |
             helm lint k8s/chart
-  helm-dry-run:
+  dry-run:
     executor: base
     steps:
       - checkout
       - run:
-          command: |
+          ->
+            helm dep up k8s/chart
+
             helm lint k8s/chart
-  helm-upgrade:
+  deploy:
     executor: base
     steps:
       - checkout
@@ -32,19 +34,19 @@ jobs:
 workflows:
   build-1:
     jobs:
-      - helm-lint:
+      - lint:
           filters:
               branches:
                 ignore:
                   - master
-      - helm-dry-run:
+      - dry-run:
           requires:
           - helm-lint
           filters:
               branches:
                 ignore:
                   - master
-      - helm-upgrade:
+      - deploy:
           filters:
               branches:
                 only: master
