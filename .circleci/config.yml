@@ -41,7 +41,7 @@ workflows:
                   - master
       - dry-run:
           requires:
-          - helm-lint
+          - lint
           filters:
               branches:
                 ignore:
