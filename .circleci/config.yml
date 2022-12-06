@@ -10,6 +10,7 @@ jobs:
   helm-lint:
       executor: base
       steps:
+        - checkout
         - run: 
             command: |
               helm lint k8s/chart
