@@ -37,7 +37,7 @@ workflows:
               branches:
                 ignore:
                   - master
-      - helm-dry-run
+      - helm-dry-run:
           requires:
           - helm-lint
           filters:
