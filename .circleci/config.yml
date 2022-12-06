@@ -32,6 +32,19 @@ jobs:
 workflows:
   build-1:
     jobs:
-      - helm-lint
+      - helm-lint:
+          filters:
+              branches:
+                ignore:
+                  - master
       - helm-dry-run
-      - helm-upgrade
+          requires:
+          - helm-lint
+          filters:
+              branches:
+                ignore:
+                  - master
+      - helm-upgrade:
+          filters:
+              branches:
+                only: master
