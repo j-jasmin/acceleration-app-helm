@@ -8,14 +8,30 @@ executors:
 
 jobs:
   helm-lint:
-      executor: base
-      steps:
-        - checkout
-        - run: 
-            command: |
-              helm lint k8s/chart
+    executor: base
+    steps:
+      - checkout
+      - run:
+          command: |
+            helm lint k8s/chart
+  helm-dry-run:
+    executor: base
+    steps:
+      - checkout
+      - run:
+          command: |
+            helm lint k8s/chart
+  helm-upgrade:
+    executor: base
+    steps:
+      - checkout
+      - run:
+          command: |
+            helm lint k8s/chart
 
 workflows:
   build-1:
     jobs:
       - helm-lint
+      - helm-dry-run
+      - helm-upgrade
