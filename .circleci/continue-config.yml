@@ -1,0 +1,44 @@
+version: 2.1
+
+parameters:
+  build-code:
+    type: boolean
+    default: false
+  helm-validate:
+    type: boolean
+    default: false
+
+executors:
+  base:
+    docker:
+      - image: cimg/base:stable
+
+jobs:
+  build-code:
+      executor: base
+      steps:
+        - run: 
+            command: |
+              echo "build-code"
+
+  helm-validate: 
+      executor: base
+      steps:
+        - run: 
+            command: |
+              echo "helm-validate" 
+              
+workflows:
+  build-1:
+    when: 
+      or: 
+        - << pipeline.parameters.build-code >>
+    jobs:
+      - build-code
+      
+  build-2:
+    when: 
+      or: 
+        - << pipeline.parameters.helm-validate >>
+    jobs:
+      - helm-validate
