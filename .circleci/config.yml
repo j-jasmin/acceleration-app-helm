@@ -19,10 +19,11 @@ jobs:
     steps:
       - checkout
       - run:
-          ->
-            helm dep up k8s/chart
+          command:
+            ->
+              helm dep up k8s/chart
 
-            helm lint k8s/chart
+              helm lint k8s/chart
   deploy:
     executor: base
     steps:
